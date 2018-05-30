@@ -11,12 +11,13 @@ function! s:ansible_vault(subcmd) abort
     echoerr 'Only "encrypt" or "decrypt" will be accepted for subcommand'
     return
   endif
-  let password_file = expand(get(g:, 'ansible_vault_password_file', '~/.vault_password'))
-  if !filereadable(password_file)
-    echoerr printf('%s: no such password file for ansible-vault', password_file)
-    return
-  endif
-  let cmd = printf('ansible-vault %s --vault-password-file=%s', a:subcmd, password_file)
+  " ansible-vault password management is being done by ansible.cfg file.
+  "let password_file = expand(get(g:, 'ansible_vault_password_file', '~/.vault_password'))
+  "if !filereadable(password_file)
+  "  echoerr printf('%s: no such password file for ansible-vault', password_file)
+  "  return
+  "endif
+  let cmd = printf('ansible-vault %s', a:subcmd)
   call setqflist([])
   let tmpfile = ''
   if stridx(cmd, '%s') > -1
